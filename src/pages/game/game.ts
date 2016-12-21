@@ -1,22 +1,32 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/*
-  Generated class for the Game page.
+import { EliteApiService } from "../../providers/providers";
+import { TeamHomePage } from '../pages';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-game',
   templateUrl: 'game.html'
 })
 export class GamePage {
+  game: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private _eliteApi: EliteApiService) 
+  {
+    this.game = this.navParams.data;
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamePage');
+    
+  }
+
+  teamTapped(teamId) {
+    let tournementData = this._eliteApi.getCurrentTournament();
+    let team = tournementData.teams.find(t => t.id === teamId)
+    this.navCtrl.push(TeamHomePage, team);
   }
 
 }
