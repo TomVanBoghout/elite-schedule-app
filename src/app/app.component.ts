@@ -3,6 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import {MyTeamsPage} from "../pages/my-teams/my-teams";
+import {TournamentsPage} from "../pages/tournaments/tournaments";
 
 
 @Component({
@@ -33,9 +34,13 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
+  goHome() {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.push(MyTeamsPage);
+  }
+
+  goToTournaments() {
+    this.nav.push(TournamentsPage);
   }
 }
