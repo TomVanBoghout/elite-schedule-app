@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import {StandingsPage, TeamDetailPage} from '../pages';
+import {StandingsPage, TeamDetailPage,MyTeamsPage} from '../pages';
 
 /*
   Generated class for the TeamHome page.
@@ -14,13 +14,21 @@ import {StandingsPage, TeamDetailPage} from '../pages';
   templateUrl: 'team-home.html'
 })
 export class TeamHomePage {
+  team: any;
   teamDetailTab = TeamDetailPage;
   standingsTab = StandingsPage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.team = this.navParams.data;
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TeamHomePage');
+    
   }
 
+  goHome(){
+    console.log("goHome");
+    this.navCtrl.popToRoot();
+  }
 }
