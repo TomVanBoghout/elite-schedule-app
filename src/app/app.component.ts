@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
+//import {HTTP_PROVIDERS} from '@angular/http'
 
 import {MyTeamsPage} from "../pages/my-teams/my-teams";
 import {TournamentsPage} from "../pages/tournaments/tournaments";
+import { EliteApiService} from '../providers/providers';
 
 
 @Component({

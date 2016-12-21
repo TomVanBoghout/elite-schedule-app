@@ -1,29 +1,26 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {TeamHomePage} from "../team-home/team-home";
-//import { TeamHomePage } from '../pages';
+import { TeamHomePage } from "../team-home/team-home";
+import { EliteApiService } from "../../providers/providers";
 
-/*
-  Generated class for the Teams page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-teams',
   templateUrl: 'teams.html'
 })
 export class TeamsPage {
-  teams = [
-    { id: 1, name: 'HC Elite'},
-    { id: 2, name: 'Team Takeover'},
-    { id: 3, name: 'DC Thunder'}
-  ];
+  teams = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private _eliteApi: EliteApiService) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TeamsPage');
+    let selectedTournament = this.navParams.data;
+    this._eliteApi.getTournamentData(selectedTournament.id).subscribe(data => {
+      
+      this.teams = data.teams;
+    })
   }
 
   itemTapped($event, team) {
