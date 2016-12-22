@@ -128,4 +128,11 @@ export class TeamDetailPage {
     
   }
 
+  refreshAll(refresher) {
+    this._eliteApi.refreshCurrentTournament().subscribe(() => {
+      refresher.complete();
+      this.ionViewDidLoad();
+    })
+  }
+
 }

@@ -13,6 +13,7 @@ export class StandingsPage {
   standings: any[];
   allStandings: any[];
   team: any;
+  divisionFilter = 'division';
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -24,14 +25,31 @@ export class StandingsPage {
     let tournamentData = this._eliteApi.getCurrentTournament();
     this.standings = tournamentData.standings;
 
-    this.allStandings = 
+    /*this.allStandings = 
       _.chain(this.standings)
       .groupBy('division')
       .toPairs()
       .map(item => _.zipObject(['divisionName', 'divisionStandings'], item))
-      .value();
+      .value();*/
     console.log('standing: ', this.standings);
-    console.log('division standings', this.allStandings);
+    //console.log('division standings', this.allStandings);
+    this.allStandings = tournamentData.standings;
+    this.filterDivision();
   }
 
+  filterDivision(){
+    if (this.divisionFilter === 'all') {
+      this.standings = this.allStandings;
+    } else {
+      this.standings = _.filter(this.allStandings, s => s.division === this.team.division);
+    }
+  }
+
+  getHeader(record, recordIndex, records) {
+    if (recordIndex === 0
+    || record.division !== records[recordIndex-1].division) {
+      return record.division;
+    }
+    return null;
+  }
 }

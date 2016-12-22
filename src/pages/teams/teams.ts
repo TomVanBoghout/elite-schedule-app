@@ -11,7 +11,8 @@ import { EliteApiService } from "../../providers/providers";
 export class TeamsPage {
   teams = [];
   private _allTeams: any;
-  private _allTeamDivisions
+  private _allTeamDivisions: any;
+  queryText = "";
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -46,6 +47,20 @@ export class TeamsPage {
 
   itemTapped($event, team) {
     this.navCtrl.push(TeamHomePage, team);
+  }
+
+  updateTeams() {
+    console.log('update teams');
+    let queryTextLower = this.queryText.toLowerCase();
+    let filteredTeams = [];
+    _.forEach(this._allTeamDivisions, td => {
+      let teams = _.filter(td.divisionTeams, t => (<any>t).name.toLowerCase().includes(queryTextLower));
+      if (teams.length) {
+        filteredTeams.push({ divisionName: td.divisionName, divisionTeams: teams });
+      }
+    });
+
+    this.teams = filteredTeams;
   }
 
 }

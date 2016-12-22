@@ -10,6 +10,13 @@
     <ion-title>teams</ion-title>
   </ion-navbar>
 
+  <ion-toolbar>
+    <ion-searchbar  placeholder="Zoek" 
+                    [(ngModel)]="queryText"
+                    (ionInput)="updateTeams()">
+    </ion-searchbar>
+  </ion-toolbar>
+
 </ion-header>
 
 
