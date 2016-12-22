@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, LoadingController, Events } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 //import {HTTP_PROVIDERS} from '@angular/http'
 
-import {MyTeamsPage} from "../pages/my-teams/my-teams";
-import {TournamentsPage} from "../pages/tournaments/tournaments";
-import { EliteApiService} from '../providers/providers';
+import {TournamentsPage, TeamHomePage, MyTeamsPage} from "../pages/pages";
+import { EliteApiService, UserSettingsService} from '../providers/providers';
 
 
 @Component({
@@ -14,12 +13,19 @@ import { EliteApiService} from '../providers/providers';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  favoriteTeams: any[];
   rootPage: any = MyTeamsPage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform,
+              private _loadingController: LoadingController,
+              public _events: Events,
+              private _eliteApi: EliteApiService,
+              private _userSettings: UserSettingsService) {
     this.initializeApp();
+    this.refreshFavorites();
+    this._events.subscribe('Favorites changed', () => this.refreshFavorites());
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -44,5 +50,23 @@ export class MyApp {
 
   goToTournaments() {
     this.nav.push(TournamentsPage);
+  }
+
+  refreshFavorites() {
+    console.log("REFRESH FAVORITES");
+    this._userSettings.getAllFavorites().then(favs => {
+      this.favoriteTeams = <any[]>favs
+      console.log(this.favoriteTeams);
+      
+    });
+  }
+
+  goToTeam(favorite) {
+    /*let loader = this._loadingController.create({
+      content: 'Getting data...',
+      dismissOnPageChange: true
+    });
+    loader.present();
+    this._eliteApi.getTournamentData(favorite.tournamentId).subscribe(l => this.navCtrl.push(TeamHomePage, favorite.team));*/
   }
 }

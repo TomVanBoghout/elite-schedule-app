@@ -13,7 +13,7 @@ import {EliteApiService, UserSettingsService} from '../../providers/providers';
   templateUrl: 'my-teams.html'
 })
 export class MyTeamsPage {
-  favorites: any;
+  favorites: any[];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -43,7 +43,7 @@ export class MyTeamsPage {
   }
 
   ionViewDidEnter() {
-    this._userSettings.getAllFavorites().then(favs => this.favorites = favs);
+    this._userSettings.getAllFavorites().then(favs => this.favorites = <any[]>favs);
   }
 
 }
