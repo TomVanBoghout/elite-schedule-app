@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams, LoadingController} from "ionic-angular";
 import {TournamentsPage, TeamHomePage} from "../pages";
-import {EliteApiService} from '../../providers/providers';
+import {EliteApiService, UserSettingsService} from '../../providers/providers';
 
 /*
   Generated class for the MyTeams page.
@@ -13,18 +13,12 @@ import {EliteApiService} from '../../providers/providers';
   templateUrl: 'my-teams.html'
 })
 export class MyTeamsPage {
-  favorites = [
-    {
-      team:{name: 'blah'}
-    },
-    {
-      team:{name: 'blah2'}
-    }
-  ];
+  favorites: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private _eliteApi: EliteApiService,
+              private _userSettings: UserSettingsService,
               private _loadingController: LoadingController) {
 
   }
@@ -46,6 +40,10 @@ export class MyTeamsPage {
     this._eliteApi.getTournamentData(favorite.tournamentId)
         .subscribe(t => this.navCtrl.push(TeamHomePage, favorite.team));
     
+  }
+
+  ionViewDidEnter() {
+    this._userSettings.getAllFavorites().then(favs => this.favorites = favs);
   }
 
 }
